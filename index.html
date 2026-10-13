@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="robots" content="noindex" />
+    <title>Kaydenz sign-in</title>
+    <style>
+      body {
+        font: 16px/1.5 system-ui, sans-serif;
+        margin: 20vh auto;
+        max-width: 32rem;
+        padding: 0 1rem;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <p id="message">Sending you back to Kaydenz…</p>
+    <script>
+      const params = new URLSearchParams(location.search);
+      const port = /^(\d{2,5})-/.exec(params.get("state") ?? "")?.[1];
+      const answered = params.has("code") || params.has("error");
+      if (port && answered) location.replace(`http://localhost:${port}/api/coach/chat-app/callback${location.search}`);
+      else document.getElementById("message").textContent = "This page finishes a Kaydenz sign-in to Slack. Start from the Connections page in Kaydenz.";
+    </script>
+  </body>
+</html>
